@@ -41,6 +41,7 @@ def parse_and_filter_file(file):
         .filter(lambda x : x[0].date().year == 2015 or x[0].date().year == 2016)\
         .map(lambda x : x[1])
     # print(dates_RDD.take(5))
+    return dates_RDD
 
 
 msft_RDD = parse_and_filter_file("msft.csv")
