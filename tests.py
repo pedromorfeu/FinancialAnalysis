@@ -3,8 +3,17 @@ from datetime import datetime
 from pyspark import SparkContext
 
 
-f = float(12.33)
-print(f)
+import pandas as pd
+import pandas.io.data as web
+from datetime import datetime
+
+start = datetime(2016, 7, 1)
+end = datetime(2016, 9, 30)
+
+# get web data
+msft = web.DataReader("MSFT", "google", start, end)
+print("MSFT", msft)
+
 
 exit()
 
