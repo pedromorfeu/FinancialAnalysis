@@ -2,6 +2,12 @@ from datetime import datetime
 
 from pyspark import SparkContext
 
+
+f = float(12.33)
+print(f)
+
+exit()
+
 d = datetime.strptime("2010-05-26", "%Y-%m-%d")
 print(d.date().year)
 
