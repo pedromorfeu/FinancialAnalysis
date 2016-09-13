@@ -10,15 +10,15 @@ start = datetime(2010, 1, 1)
 end = datetime(2016, 12, 31)
 
 # get web data
-msft = web.DataReader("MSFT", "google", start, end)
+msft = web.DataReader("MSFT", "yahoo", start, end)
 print("MSFT", msft.head())
 # print(msft.shape)
 
-goog = web.DataReader("GOOG", "google", start, end)
+goog = web.DataReader("GOOG", "yahoo", start, end)
 print("GOOG", goog.head())
 # print(goog.shape)
 
-aapl = web.DataReader("AAPL", "google", start, end)
+aapl = web.DataReader("AAPL", "yahoo", start, end)
 print("AAPL", aapl.head())
 # print(aapl.shape)
 
@@ -27,6 +27,7 @@ print("AAPL", aapl.head())
 msft.to_csv(path_or_buf="msft.csv", sep=",")
 goog.to_csv(path_or_buf="goog.csv", sep=",")
 aapl.to_csv(path_or_buf="aapl.csv", sep=",")
+
 
 # create Spark context
 sc = SparkContext("local", "Simple App")
