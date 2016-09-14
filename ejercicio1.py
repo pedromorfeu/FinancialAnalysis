@@ -1,6 +1,6 @@
 import pandas as pd
 import pandas.io.data as web
-from datetime import datetime
+import datetime
 
 from pyspark import SparkContext
 

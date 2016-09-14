@@ -1,6 +1,6 @@
 import pandas as pd
 import pandas.io.data as web
-from datetime import datetime
+import datetime
 
 from financial import FinancialData
 
@@ -76,7 +76,7 @@ print(ret_aapl)
 
 msft_aapl = sc.union([x_msft, x_aapl])
 
-rpt = msft_aapl.reduce(lambda x,y: (x * ret_msft) + (y * ret_aapl))
+rpt = msft_aapl.reduce(lambda x, y: (x * ret_msft) + (y * ret_aapl))
 print(rpt)
 
 vt = initial_portfolio_value * (1 + rpt)
