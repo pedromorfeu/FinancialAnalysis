@@ -45,9 +45,15 @@ prices_all = sc.union([prices, prices_1])
 
 
 def div(t_1, t):
-    return t/t_1
+    return np.log(t/t_1)
 
-prices = prices_all.reduceByKey(lambda x, y: div(x, y))
+prices = prices_all.reduceByKey(lambda x, y: div(x, y)).filter(lambda x: x[0] != datetime.date(2010, 1, 3)).map(lambda x: x[1])
 print(prices.takeOrdered(5))
 
-# prices.map(lambda x: x[1])
+z_score = norm.ppf(0.95) # loc:0 (μ), scale: 1 (σ)
+alpha = z_score * prices.stdev()
+
+print(alpha)
+
+value_at_risk = portfolio_value * alpha
+print(value_at_risk)

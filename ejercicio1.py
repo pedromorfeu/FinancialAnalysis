@@ -6,8 +6,8 @@ from pyspark import SparkContext
 
 print("*** Ejercicio 1 ***")
 
-start = datetime(2010, 1, 1)
-end = datetime(2016, 12, 31)
+start = datetime.datetime(2010, 1, 1)
+end = datetime.datetime(2016, 12, 31)
 
 # get web data
 msft = web.DataReader("MSFT", "yahoo", start, end)
