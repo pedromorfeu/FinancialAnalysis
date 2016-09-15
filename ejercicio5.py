@@ -2,6 +2,9 @@ import pandas as pd
 import pandas.io.data as web
 import datetime
 
+import numpy as np
+from scipy.stats import norm
+
 from financial import FinancialData
 
 from pyspark import SparkContext
@@ -30,8 +33,8 @@ prices.cache()
 shares = 1000
 
 portfolio_value = prices.filter(lambda x: x[0] == datetime.date(2015, 1, 2))\
-    .map(lambda x: x[1])\
-    .reduce(lambda x, y: shares * x + y)
+    .map(lambda x: x[1] * shares)\
+    .reduce(lambda x, y: x+y)
 print(portfolio_value)
 
 
@@ -50,10 +53,12 @@ def div(t_1, t):
 prices = prices_all.reduceByKey(lambda x, y: div(x, y)).filter(lambda x: x[0] != datetime.date(2010, 1, 3)).map(lambda x: x[1])
 print(prices.takeOrdered(5))
 
-z_score = norm.ppf(0.95) # loc:0 (μ), scale: 1 (σ)
-alpha = z_score * prices.stdev()
+print("std", prices.stdev())
 
-print(alpha)
+z_score = norm.ppf(0.95) # loc:0 (μ), scale: 1 (σ)
+print("z_score", z_score)
+alpha = z_score * prices.stdev()
+print("alpha",alpha)
 
 value_at_risk = portfolio_value * alpha
 print(value_at_risk)
