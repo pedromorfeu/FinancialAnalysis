@@ -1,13 +1,14 @@
-import pandas as pd
 import pandas.io.data as web
 import datetime
+
+import financial
 
 from pyspark import SparkContext
 
 print("*** Ejercicio 1 ***")
 
-start = datetime.datetime(2010, 1, 1)
-end = datetime.datetime(2016, 12, 31)
+start = datetime.datetime(2015, 1, 1)
+end = datetime.datetime(2016, 7, 27)
 
 # get web data
 msft = web.DataReader("MSFT", "yahoo", start, end)
@@ -36,17 +37,14 @@ print(sc)
 
 # parse file and filter by years 2015 and 2016
 def parse_and_filter(file):
-    file_RDD = sc.textFile(file)
+    file_rdd = sc.textFile(file)
 
-    split_RDD = file_RDD.filter(lambda x : not x.startswith("Date"))\
-        .map(lambda x : x.strip().split(","))
-    # print(split_RDD.take(5))
+    split_rdd = financial.transform(file_rdd)
+    print(split_rdd.take(5))
 
-    filter_RDD = split_RDD.map(lambda x : (datetime.strptime(x[0], "%Y-%m-%d").date(), x))\
-        .filter(lambda x : x[0].year in [2015, 2016])\
-        .map(lambda x : x[1])
+    filter_rdd = split_rdd.filter(lambda x: x.Date.year in [2015, 2016])
     # print(filter_RDD.take(5))
-    return filter_RDD
+    return filter_rdd
 
 
 msft_RDD = parse_and_filter("msft.csv")

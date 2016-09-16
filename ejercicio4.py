@@ -2,7 +2,7 @@ import pandas as pd
 import pandas.io.data as web
 import datetime
 
-from financial import FinancialData
+import financial
 
 from pyspark import SparkContext
 
@@ -16,9 +16,7 @@ print(sc)
 def calculate_vt(file):
     file_rdd = sc.textFile(file)
 
-    split_rdd = file_rdd.filter(lambda x: not x.startswith("Date"))\
-        .map(lambda x: x.strip().split(","))\
-        .map(lambda x: FinancialData(x[0], x[1], x[2], x[3], x[4], x[5], x[6]))
+    split_rdd = financial.transform(file_rdd)
     print(split_rdd.take(5))
 
     filter_rdd = split_rdd.filter(lambda x: (x.Date == datetime.date(2016, 3, 30)) or

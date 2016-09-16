@@ -17,3 +17,8 @@ class FinancialData:
         self.AdjClose = float(AdjClose)
 
 
+def transform(file_rdd):
+    split_rdd = file_rdd.filter(lambda x: not x.startswith("Date")) \
+        .map(lambda x: x.strip().split(",")) \
+        .map(lambda x: FinancialData(x[0], x[1], x[2], x[3], x[4], x[5], x[6]))
+    return split_rdd
