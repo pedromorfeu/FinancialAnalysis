@@ -43,7 +43,7 @@ def parse_and_filter(file):
     # print(split_RDD.take(5))
 
     filter_RDD = split_RDD.map(lambda x : (datetime.strptime(x[0], "%Y-%m-%d").date(), x))\
-        .filter(lambda x : x[0].year == 2015 or x[0].year == 2016)\
+        .filter(lambda x : x[0].year in [2015, 2016])\
         .map(lambda x : x[1])
     # print(filter_RDD.take(5))
     return filter_RDD

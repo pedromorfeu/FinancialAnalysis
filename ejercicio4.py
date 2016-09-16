@@ -21,8 +21,8 @@ def calculate_vt(file):
         .map(lambda x: FinancialData(x[0], x[1], x[2], x[3], x[4], x[5], x[6]))
     print(split_rdd.take(5))
 
-    filter_rdd = split_rdd.filter(lambda x: (x.Date.year == 2016 and x.Date.month == 3 and x.Date.day == 30) or
-                                            (x.Date.year == 2016 and x.Date.month == 4 and x.Date.day == 29))
+    filter_rdd = split_rdd.filter(lambda x: (x.Date == datetime.date(2016, 3, 30)) or
+                                            (x.Date == datetime.date(2016, 4, 29)))
     # print(filter_RDD.collect())
     # vts = filter_rdd.collect()
     # vt_1 = vts[0]
